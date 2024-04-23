@@ -15,7 +15,7 @@ type CategoryService struct{}
 
 var categoryCollection = config.GetCollection("categories")
 
-func (s CategoryService) GetCategories(filter *forms.Filter) (response []forms.CategoryStruct, err error) {
+func (s CategoryService) GetCategories(filter forms.Filter) (response []forms.CategoryStruct, err error) {
 	qr := bson.M{}
 	opts := options.Find()
 	opts.SetLimit(filter.Limit)

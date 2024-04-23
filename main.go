@@ -1,12 +1,21 @@
 package main
 
 import (
+	router "example/go-crud/routers"
+	"os"
+
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	router := gin.Default()
-	router.GET("/albums", getAlbums)
+	if os.Getenv("ENV") == "PRODUCTION" {
+		gin.SetMode(gin.ReleaseMode)
+	}
 
-	router.Run("localhost:8080")
+	r := gin.Default()
+	{
+		router.CategoryRouter(r.Group(""))
+	}
+
+	r.Run("localhost:8080")
 }

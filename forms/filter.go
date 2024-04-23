@@ -7,5 +7,5 @@ type FilterDetail struct {
 type Filter struct {
 	Limit         int64
 	Offset        int64
-	FilterDetails []*FilterDetail
+	FilterDetails []FilterDetail
 }

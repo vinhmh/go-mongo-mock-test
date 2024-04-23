@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"example/go-crud/helper"
 	"example/go-crud/services"
 	"net/http"
 
@@ -12,11 +13,10 @@ type CategoryController struct{}
 var categoryService = new(services.CategoryService)
 
 func (ctr CategoryController) GetCategories(c *gin.Context) {
-	// filter := parseFilterParams(r.URL.Query())
-	c.Request
-	if result, err := categoryService.GetCategories(); err != nil {
-		c.AbortWithStatusJSON(http.StatusBadRequest, response.DefaultResponse(false, nil, err.Error()))
+	filter := helper.ParseFilterParams(c.Request.URL.Query())
+	if result, err := categoryService.GetCategories(filter); err != nil {
+		c.AbortWithStatusJSON(http.StatusBadRequest, err)
 	} else {
-		c.JSON(http.StatusOK, response.DefaultResponse(true, result, ""))
+		c.JSON(http.StatusOK, result)
 	}
 }

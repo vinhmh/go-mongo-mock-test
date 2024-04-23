@@ -17,7 +17,7 @@ func AppendCondition(filter bson.M, key string, value interface{}) bson.M {
 	return filter
 }
 
-func parseFilterParams(queryParams map[string][]string) forms.Filter {
+func ParseFilterParams(queryParams map[string][]string) forms.Filter {
 	filter := forms.Filter{
 		Limit:  10, // Default limit
 		Offset: 0,  // Default offset
@@ -35,14 +35,12 @@ func parseFilterParams(queryParams map[string][]string) forms.Filter {
 
 	if filterDetailsStr, ok := queryParams["filterDetails"]; ok {
 		var filterDetails []forms.FilterDetail
-		err := json.Unmarshal([]byte(filterDetailsStr), filterDetails)
+		err := json.Unmarshal([]byte(filterDetailsStr[0]), &filterDetails)
 		if err != nil {
 			fmt.Println("Error:", err)
-			return
+			return filter
 		}
+		filter.FilterDetails = filterDetails
 	}
-
-	// Add parsing logic for other filtering parameters as needed
-
 	return filter
 }
