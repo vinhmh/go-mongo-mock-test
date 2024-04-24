@@ -1,0 +1,64 @@
+definitions:
+  models.CategoryStruct:
+    properties:
+      description:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+    required:
+    - description
+    - name
+    type: object
+info:
+  contact: {}
+paths:
+  /categories:
+    get:
+      description: Get all categories
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        required: true
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      - description: Filter details
+        example: '"[{\"fieldName\":\"name\",\"value\":\"category1\"}]"'
+        in: query
+        name: filterDetails
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              type: array
+            type: array
+      summary: Get categories
+    post:
+      consumes:
+      - application/json
+      description: Create a new category
+      parameters:
+      - description: Category data
+        in: body
+        name: categoryData
+        required: true
+        schema:
+          $ref: '#/definitions/models.CategoryStruct'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+      summary: Create a category
+swagger: "2.0"
