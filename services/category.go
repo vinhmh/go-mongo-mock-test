@@ -2,20 +2,24 @@ package services
 
 import (
 	"context"
-	"example/go-crud/config"
-	"example/go-crud/forms"
 	"example/go-crud/helper"
-	"log"
+	"example/go-crud/models"
+	"fmt"
 
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-type CategoryService struct{}
+type CategoryService struct{ Collection *mongo.Collection }
 
-var categoryCollection = config.GetCollection("categories")
+func CategoryServiceInit(collection *mongo.Collection) *CategoryService {
+	return &CategoryService{
+		Collection: collection,
+	}
+}
 
-func (s CategoryService) GetCategories(filter forms.Filter) (response []forms.CategoryStruct, err error) {
+func (s CategoryService) GetCategories(filter models.Filter) (response []models.CategoryStruct, err error) {
 	qr := bson.M{}
 	opts := options.Find()
 	opts.SetLimit(filter.Limit)
@@ -27,10 +31,24 @@ func (s CategoryService) GetCategories(filter forms.Filter) (response []forms.Ca
 			}
 		}
 	}
-	cursor, err := categoryCollection.Find(context.Background(), qr, opts)
+	cursor, err := s.Collection.Find(context.Background(), qr, opts)
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
 	err = cursor.All(context.Background(), &response)
 	return
+}
+
+func (s CategoryService) CreateCategory(createData models.CategoryStruct) error {
+	if createData.Name == "" {
+		return fmt.Errorf("Category name is require")
+	}
+	_, err := s.Collection.InsertOne(context.Background(), createData)
+	if err != nil {
+		if mongo.IsDuplicateKeyError(err) {
+			return fmt.Errorf("Category name %s is duplicated!", createData.Name)
+		}
+		return err
+	}
+	return nil
 }

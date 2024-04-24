@@ -1,0 +1,16 @@
+mode: set
+example/go-crud/services/category.go:16.73,20.2 1 1
+example/go-crud/services/category.go:22.108,27.35 5 1
+example/go-crud/services/category.go:27.35,28.42 1 1
+example/go-crud/services/category.go:28.42,29.43 1 1
+example/go-crud/services/category.go:29.43,31.5 1 1
+example/go-crud/services/category.go:34.2,35.16 2 1
+example/go-crud/services/category.go:35.16,37.3 1 1
+example/go-crud/services/category.go:38.2,39.8 2 1
+example/go-crud/services/category.go:42.81,43.27 1 1
+example/go-crud/services/category.go:43.27,45.3 1 1
+example/go-crud/services/category.go:46.2,47.16 2 1
+example/go-crud/services/category.go:47.16,48.37 1 1
+example/go-crud/services/category.go:48.37,50.4 1 1
+example/go-crud/services/category.go:51.3,51.13 1 1
+example/go-crud/services/category.go:53.2,53.12 1 1

@@ -1,0 +1,3 @@
+ go test -coverprofile=coverage.out -tags=test -cover ./...
+
+ go tool cover -html=coverage.out -o ./public/coverage.html
